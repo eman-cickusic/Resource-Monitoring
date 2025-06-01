@@ -1,4 +1,4 @@
-# Google Cloud Monitoring Lab
+# Resource Monitoring
 
 This repository contains a comprehensive guide for working with Google Cloud Monitoring, including creating custom dashboards, alerting policies, resource groups, and uptime checks.
 
