@@ -1,0 +1,39 @@
+{
+  "displayName": "Nginx Stack Uptime Check",
+  "monitoredResource": {
+    "type": "uptime_url",
+    "labels": {
+      "project_id": "[PROJECT_ID]",
+      "host": "[EXTERNAL_IP]"
+    }
+  },
+  "httpCheck": {
+    "path": "/",
+    "port": 80,
+    "requestMethod": "GET",
+    "contentType": "URL_ENCODED",
+    "validateSsl": false,
+    "headers": {
+      "User-Agent": "GoogleStackdriverMonitoring-UptimeChecks(https://cloud.google.com/monitoring)"
+    },
+    "acceptedResponseStatusCodes": [
+      {
+        "statusClass": "STATUS_CLASS_2XX"
+      }
+    ]
+  },
+  "period": "60s",
+  "timeout": "10s",
+  "contentMatchers": [
+    {
+      "content": "Welcome to nginx!",
+      "matcher": "CONTAINS_STRING"
+    }
+  ],
+  "checkerType": "STATIC_IP_CHECKERS",
+  "selectedRegions": [
+    "USA",
+    "EUROPE",
+    "ASIA_PACIFIC"
+  ]
+}

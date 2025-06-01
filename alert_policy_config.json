@@ -1,0 +1,61 @@
+{
+  "displayName": "High CPU Usage Alert",
+  "documentation": {
+    "content": "Alert when CPU usage exceeds 20% threshold on VM instances",
+    "mimeType": "text/markdown"
+  },
+  "conditions": [
+    {
+      "displayName": "VM Instance CPU Usage High",
+      "conditionThreshold": {
+        "filter": "resource.type=\"gce_instance\" AND metric.type=\"compute.googleapis.com/instance/cpu/utilization\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 0.2,
+        "duration": "60s",
+        "aggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_MEAN",
+            "crossSeriesReducer": "REDUCE_MEAN",
+            "groupByFields": [
+              "resource.labels.instance_id"
+            ]
+          }
+        ],
+        "trigger": {
+          "count": 1
+        }
+      }
+    },
+    {
+      "displayName": "VM Instance CPU Usage High - Second Instance",
+      "conditionThreshold": {
+        "filter": "resource.type=\"gce_instance\" AND metric.type=\"compute.googleapis.com/instance/cpu/utilization\" AND resource.labels.instance_id!=\"nginxstack-1\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 0.2,
+        "duration": "60s",
+        "aggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_MEAN",
+            "crossSeriesReducer": "REDUCE_MEAN",
+            "groupByFields": [
+              "resource.labels.instance_id"
+            ]
+          }
+        ],
+        "trigger": {
+          "count": 1
+        }
+      }
+    }
+  ],
+  "combiner": "AND",
+  "enabled": true,
+  "notificationChannels": [
+    "projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]"
+  ],
+  "alertStrategy": {
+    "autoClose": "1800s"
+  }
+}
